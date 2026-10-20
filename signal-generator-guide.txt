@@ -1,0 +1,191 @@
+SIGNAL GENERATOR GUIDE
+=====================
+
+ENGLISH
+-------
+
+What the generator does
+-----------------------
+The signal generator evaluates two JavaScript expressions repeatedly, once
+for each audio sample. The expression in the "x" field sets the horizontal
+coordinate; the expression in the "y" field sets the vertical coordinate.
+Together they draw a point on the oscilloscope.
+
+Turn on the SIGNAL GENERATOR checkbox to display the generated signal.
+Expressions are applied as you type. If an expression is temporarily
+incomplete or invalid, an X appears beside that field and the last valid
+expression continues to run. Correct the expression to clear the X.
+
+Available names
+---------------
+t   Time in seconds for the current sample.
+n   Sample counter (the number of samples generated so far).
+a   Parameter A's current value.
+b   Parameter B's current value.
+PI  The value of pi.
+sin The sine function (same as Math.sin).
+cos The cosine function (same as Math.cos).
+
+Parameters A and B are controlled by their value and multiplier sliders.
+Each parameter is its slider value multiplied by 1, 10, 100, or 1000.
+In expressions such as sin(2*PI*a*t), a or b therefore controls the
+oscillation rate. The parameters are updated smoothly when their slider
+values change.
+
+Expression syntax
+-----------------
+Enter one JavaScript expression that evaluates to a number. Do not enter a
+"return" statement or a complete function. JavaScript is case-sensitive:
+write PI, sin, cos, and Math exactly as shown. Use * for multiplication and
+periods for decimal points. Trigonometric functions use radians.
+
+The named sin, cos, and PI can be used directly. JavaScript's Math object
+can also be used, for example Math.sin(t), Math.abs(t), Math.floor(t),
+Math.sign(t), Math.sqrt(t), Math.pow(t, 2), or Math.max(x, y).
+
+Examples
+--------
+Sine wave:
+    x: sin(2*PI*a*t)
+    y: 0
+
+Circle:
+    x: cos(2*PI*a*t)
+    y: sin(2*PI*a*t)
+
+Square wave on the y axis:
+    x: t
+    y: Math.sign(Math.sin(2*PI*a*t))
+
+Rising sawtooth on the y axis:
+    x: t
+    y: 2*(a*t-Math.floor(a*t))-1
+
+Triangle wave on the y axis:
+    x: t
+    y: 1-4*Math.abs(a*t-Math.floor(a*t+0.5))
+
+Ramp:
+    x: t
+    y: t
+
+Play an SVG point trace
+----------------------
+In the oscilloscope's SIGNAL GENERATOR section, choose the generated JSON file
+using "JSON points". Check "Use loaded trace"; then enable SIGNAL GENERATOR.
+The trace loops continuously. "Loop seconds" sets the duration of one loop.
+Use the "Playback speed" slider to multiply playback speed from 0.25x to 10x;
+1x is normal speed. The actual loop duration is Loop seconds divided by the
+speed multiplier. Uncheck "Use loaded trace" to return to the x/y expression
+fields.
+
+The player interpolates between points and joins the last point to the first
+at the loop boundary. The oscilloscope's XY generator cannot blank its beam,
+so separate SVG strokes are joined by visible transition lines.
+
+Tips
+----
+• Use Math.* for JavaScript math functions other than the direct sin/cos
+  shortcuts and PI name listed above.
+• Keep values near -1 to +1 for a signal that fits the oscilloscope view.
+• If the X marker appears, check spelling, parentheses, and operators.
+• A comma is not needed to separate function arguments in expressions like
+  Math.max(x, y); use normal JavaScript parentheses.
+
+
+GUIDE DU GÉNÉRATEUR DE SIGNAUX
+==============================
+
+FRANÇAIS
+--------
+
+Fonctionnement du générateur
+----------------------------
+Le générateur évalue deux expressions JavaScript de façon répétée, une fois
+pour chaque échantillon audio. L'expression du champ « x » définit la
+coordonnée horizontale ; celle du champ « y » définit la coordonnée verticale.
+Ensemble, elles dessinent un point sur l'oscilloscope.
+
+Cochez SIGNAL GENERATOR pour afficher le signal généré. Les expressions sont
+appliquées pendant la saisie. Si une expression est incomplète ou invalide,
+un X apparaît à côté du champ et la dernière expression valide continue de
+fonctionner. Corrigez l'expression pour faire disparaître le X.
+
+Noms disponibles
+----------------
+t   Temps en secondes pour l'échantillon actuel.
+n   Compteur d'échantillons (nombre d'échantillons générés jusqu'ici).
+a   Valeur actuelle du paramètre A.
+b   Valeur actuelle du paramètre B.
+PI  Valeur de pi.
+sin Fonction sinus (équivalente à Math.sin).
+cos Fonction cosinus (équivalente à Math.cos).
+
+Les paramètres A et B sont commandés par leurs curseurs de valeur et de
+multiplicateur. Chaque paramètre correspond à la valeur du curseur multipliée
+par 1, 10, 100 ou 1000. Dans une expression comme sin(2*PI*a*t), a ou b
+contrôle donc la fréquence d'oscillation. La valeur des paramètres change en
+douceur lorsque leurs curseurs sont déplacés.
+
+Syntaxe des expressions
+-----------------------
+Saisissez une expression JavaScript unique qui renvoie une valeur numérique.
+Ne saisissez ni instruction « return » ni fonction complète. JavaScript
+distingue les majuscules et les minuscules : écrivez PI, sin, cos et Math
+exactement comme indiqué. Utilisez * pour la multiplication et un point pour
+les décimales. Les fonctions trigonométriques utilisent des radians.
+
+Les noms sin, cos et PI peuvent être utilisés directement. L'objet Math de
+JavaScript est également disponible, par exemple Math.sin(t), Math.abs(t),
+Math.floor(t), Math.sign(t), Math.sqrt(t), Math.pow(t, 2) ou Math.max(x, y).
+
+Exemples
+--------
+Onde sinusoïdale :
+    x : sin(2*PI*a*t)
+    y : 0
+
+Cercle :
+    x : cos(2*PI*a*t)
+    y : sin(2*PI*a*t)
+
+Signal carré sur l'axe y :
+    x : t
+    y : Math.sign(Math.sin(2*PI*a*t))
+
+Dent de scie montante sur l'axe y :
+    x : t
+    y : 2*(a*t-Math.floor(a*t))-1
+
+Signal triangulaire sur l'axe y :
+    x : t
+    y : 1-4*Math.abs(a*t-Math.floor(a*t+0.5))
+
+Rampe :
+    x : t
+    y : t
+
+Lire une trace de points SVG
+----------------------------
+Dans la section SIGNAL GENERATOR de l'oscilloscope, choisissez le fichier JSON
+généré avec « JSON points ». Cochez « Use loaded trace », puis activez SIGNAL
+GENERATOR. La trace se répète en boucle. « Loop seconds » règle la durée d'une
+boucle. Utilisez le curseur « Playback speed » pour multiplier la vitesse de
+0,25x à 10x ; 1x correspond à la vitesse normale. La durée réelle d'une boucle
+est « Loop seconds » divisée par le multiplicateur. Décochez « Use loaded
+trace » pour revenir aux expressions x/y.
+
+Le lecteur interpole entre les points et relie le dernier au premier à la fin
+de la boucle. Le générateur XY de l'oscilloscope ne peut pas éteindre le
+faisceau : les tracés SVG séparés sont donc reliés par des lignes visibles.
+
+Conseils
+--------
+• Utilisez Math.* pour les fonctions mathématiques JavaScript autres que les
+  raccourcis sin/cos et le nom PI listés ci-dessus.
+• Gardez les valeurs proches de -1 à +1 pour que le signal tienne dans la
+  zone visible de l'oscilloscope.
+• Si le marqueur X apparaît, vérifiez l'orthographe, les parenthèses et les
+  opérateurs.
+• Il n'est pas nécessaire d'ajouter une virgule entre les arguments d'une
+  expression comme Math.max(x, y) : utilisez la syntaxe JavaScript normale.
